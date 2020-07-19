@@ -22,17 +22,17 @@ class Dog
     DB[:conn].execute(sql)
   end
 
-  def save(name,breed)
+  def save
     sql="INSERT INTO dogs(name,breed) VALUES(?,?)"
-    DB[:conn].execute(sql,name,breed)
-    sql1="SELECTid FROM dogs ORDER BY id DESC LIMIT 1"
+    DB[:conn].execute(sql,@name,@breed)
+    sql1="SELECT id FROM dogs ORDER BY id DESC LIMIT 1"
     @id=DB[:conn].execute(sql1)[0]
+    return self
   end
 
   def self.create(name,breed)
     d=Dog.new(name,breed)
-    save(name,breed)
-    return d
+    d.save
   end
 
   def self.new_from_db(row)
